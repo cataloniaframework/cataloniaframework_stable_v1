@@ -1,0 +1,15 @@
+/* TEAM */
+Your title: Carles Mateo.
+Site: http://www.carlesmateo.com
+Twitter: @carles_mateo
+Location: Barcelona, Catalonia.
+
+/* THANKS */
+Name: Betatesters
+
+/* SITE */
+Last update: 2013/02/23
+Standards: HTML5, CSS3, PSR-0, PSR-1, PSR-2, PSR-3, Carles Mateo notation / notació
+Components:
+Software: This Software has been developed with / Aquest software ha estat desenvolupat amb:
+Linux, PHPStorm, HeidiSQL under Wine, MySQL, Mozilla Firefox, FireBug, github

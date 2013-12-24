@@ -1,0 +1,47 @@
+This is the folder structure of the project:
+
+cache
+    directory where the caches files are generated.
+    Can be customized to point elsewhere in config/ files
+    Must have mask 777 or writing to Webserver user
+
+catfwcore
+    Core classes of the Catalonia Framework
+
+classes
+    For external classes/libraries not using MVC or yours.
+
+config
+    Config files for you to setup
+
+controllers
+    Folder for your controllers
+
+doc
+    Information and documentation on the project.
+
+init
+    This is the initialization directory.
+    Custom changes in your development go to commonrequests.class.php
+
+lib
+    Directory for third party libraries.
+
+models
+    Put your models here
+
+sql
+    Put your sql creation tables here
+
+translations
+    If you want to use localization put your localization files here in format section_{lang}.php
+
+views
+    Put yout views here
+
+wwww
+    Here is index.php and the root for your files visible from the Internet
+    js
+        For your Javascript code
+    img
+        For your images

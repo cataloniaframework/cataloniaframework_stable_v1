@@ -1,0 +1,20 @@
+Have LAMP installed. On Debian/Ubuntu servers:
+sudo apt-get install apache2
+sudo apt-get install libapache2-mod-php5
+sudo apt-get install mysql-server libapache2-mod-auth-mysql php5-mysql
+sudo a2enmod rewrite
+
+Point your apache root server to the folder www/ of Catalonia Framework.
+
+Ensure directory cache/ has permissions.
+chmod 777 cache/
+chmod 666 cache/.
+
+Optional, if you want to use curl functionality. On Debian/Ubuntu servers:
+sudo apt-get install curl libcurl3 libcurl3-dev php5-curl
+And restart your web server.
+
+Optional, if you want to use crypt/decrypt functionality. On Debian/Ubuntu servers:
+sudo apt-get install php5-mcrypt
+And restart your web server.
+

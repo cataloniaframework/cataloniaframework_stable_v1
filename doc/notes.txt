@@ -1,0 +1,27 @@
+
+Since controllers are classes, you can extend from other parent classes.
+
+We use a system for naming bars based on the idea of the Hungarian method.
+Prefixes:
+$st_    For Array unspecified.
+$h_     For Array: hash.
+$a_     For Array: numeric.
+$s_     For String.
+$i_     For Numeric Integer.
+$f_     For Numeric Float.
+$b_     For Boolean.
+$o_     For Object or Resource.
+$m_     For mixed or unknown type.
+
+The code follows the standard PSR-0, PSR-1, PSR-2, PSR-3.
+http://www.php-fig.org/
+https://github.com/php-fig/fig-standards/tree/master/accepted
+
+Vars is a powerful mechanism to replace VARS from the Views with results from functions or literals.
+
+The fact that are replaced at the end has many advantages, for example, you can know exactly the execution time, or the number of queries done.
+And you can avoid the problem of Wordpress, when you update some component, and the screen is rendered before of updating, and so it shows the remaining number of updates before of the update operation.
+So shows 4 updates remaining, 1 update done, and must show 3 updates remaining, 1 update done.
+
+The translations work like WordPress or Drupal
+

@@ -1,0 +1,243 @@
+2013-12-23 - v. 1.1.011 - Released version
+Fixed feature that only worked with PHP 5.4 and greater to PHP 5.3
+
+New method in Requests class getHttpReferer
+
+2013-12-22 - v. 1.1.011
+Added support for right bar at getSectionUrl
+
+Added default empty params to sample actions to make it clear and solve frequent asked questions
+
+Released version, download from:
+https://github.com/cataloniaframework/cataloniaframework_stable_v1
+
+2013-12-21 - v. 1.1.011
+Comments on method prepareInsert
+
+2013-12-20 - v. 1.1.011
+Fixed bug when encoding for database primary (writes) is different that encoding for secondaries (reads). Contributed by Marcos Catalán
+
+2013-12-18 - v. 1.1.011
+Password added to Form. Contributed by Marcos Catalan
+
+Added insert_id support for mysqli
+
+2013-09-15 - v. 1.1.010
+Added support for Multi-Language Sections
+
+Improvements to Section to support custom path and multi-language Sections. Ability to Search from path
+
+Menu now supports Visible text, and so is Multi-Language.
+Also new file common_menu_{lang}.php is created and autoloaded for Multi-Language menus and SEO urls.
+
+New files common_menu_{lang} for SEO and Multi-Language menus
+
+Added Session class, non blocking. Keep compatible with PHP 5.3
+
+2013-09-15 - v. 1.1.009
+Fixed bug in db.class
+
+2013-03-20
+Finished support for PostgreSQL
+
+2013-03-22 - v. 1.1.008
+Improved instructions for configuring permissions for cache
+
+index.php is clearer and easier to manually debug if needed.
+
+2013-03-20
+Finished implementation for MySqli and PostreSQL
+
+2013-03-12
+Added 'client_encoding'   => 'utf8' param in config for database connections.
+
+Define type of connection Postgre
+
+2013-03-09 - v. 1.1.007 sent to betatesters
+Solved bug in password for db class
+
+Finished db class for mysql
+
+Autoload now throws an specific Custom Exception in case class not found
+
+CustomExceptions are now of the namespace CataloniaFramework;
+
+2013-03-08
+Added Custom Exception CurrencyNotFoundException
+
+Added Custom Exception DatabaseUnableToSelectDb
+
+2013-03-07
+Added Currency class
+
+2013-03-06
+Solved a bug with USER_LANGUAGE not defined when site is not in multi-language. Now it is set as LANGUAGE_DEFAULT
+
+Controllers are now in the CataloniaFramework namespace.
+
+Created first model and Core::loadModule
+
+All the models are like: CacheModel and cachemodel.class.php this is to promove a clear code and avoid collisions between classes (controllers, models, etc...)
+
+Now all the cache files start by cache-
+
+Changed use for namespace CataloniaFramework in commonrequests.
+
+2013-03-05
+Moved Template catfw_firsstime.php to errors/ folder.
+
+Solved bug in Form class when sent and array instead of string.
+
+2013-03-01
+Added Requests::isPost
+
+Added loadTranslation specific for the Footer of DemoApp
+
+2013-02-28
+Added getViewIfCached to avoid work in the controller and models if the view is up to date
+
+Added function to sanitize controller i action names. So the url can be nice and characters are ignored.
+Ex: /ca/json_code/php-info.txt that performs a call to Jsoncode->phpinfotxt();
+
+Added Jsons to know the free space in cache directory
+
+Added sections to index template
+
+Added Form class
+
+Added Form contact to contact controller and views
+
+2013-02-27
+Exemple App now uses view based on controller + action
+
+Added new exception CustomClassNotFound
+
+Fixed bug in Autoload
+
+Added contact controller and views for DemoApp
+
+Added donate controller and views for DemoApp
+
+Remade the translations class to make it easy
+
+Created t() function to translate as in WordPress and Drupal.
+
+Added js/jquery-1.9.1.min.js
+
+Added json controller to AppDemo
+
+
+2013-02-26
+Defined path to translations.
+
+Cache is now multi-language!
+
+Fixed bug that made cache the errors
+
+2013-02-25
+Created cache folder
+
+Added UnixTime to Class DateTime.
+
+Added cache to ControllerBase and controllers
+
+Added Exception for unable to write cache file
+
+Fully functional cache to disk
+
+2013-02-24
+Added parameters to User Vars and System Vars.
+
+Added Stats Vars to know how many variables are in the tempates, and how many replaces have been performed
+
+2013-02-23
+Added Navigation.class to do exceptions to navigation, so the user can define the own navigation structure, not using MVC
+
+Moved commonrequests.class.php to /init folder, so the user can add their own VARS and own custom urls
+
+Added function getFile to load any file from the system
+
+Added support for user customURLS so can bypass MVC structures to execute PHP files, send files, etc...
+
+Added support for custom header response for custom Data from custom URL.
+
+Added support for no cache
+
+Created robots.txt and humans.txt
+
+2) Second part
+
+Added custom bootstrap init/bootstrap.php so the user can init classes, define autoloads, constans...
+
+User vars supports $o_db for specific purposes
+
+Added class menu to support user defined menus
+
+2013-02-20
+Created a models/commonrequests.class.php that is called on each http request.
+Is used to define common to all pages user vars (for the template engine).
+
+Created addUserVar and addSystemVar
+
+Fixed a bug in the Vars replacement algorithm when adding numeric.
+
+2013-02-19
+Fixed bug in retrieving bd info from config array
+
+config/general.php now requires db.class.php in order to allow the use of the class constants
+
+Changed Vars to UserVars and SystemVars
+
+Added microtimer when start and when end
+
+2013-02-18
+Added custom exceptions
+
+2013-02-17
+Started Db Class
+
+Modified Config files to support Read Db Server and Write Db Server.
+
+Use of references to save connection time if write and read is the same
+
+2013-02-13
+Added class DateTime
+
+Changes in getView
+
+Added functionality to replace vars in Views, creating a very powerful mechanism for dynamic data
+
+2013-02-12
+Added Namespaces. CataloniaFramework
+
+Added 'action' prefix to name the actions called from the web. actionIndex
+
+Renamed CatFw_index to index.class.php
+
+Created function decho to debug if in DEVELOPMENT.
+
+Show error views on errors.
+
+Check for valid Class and Action passed by url.
+
+2013-02-11
+Remove injection of Arrays from url
+
+Added a firsttime page, for the first time you download the Framework
+
+Added a global try catch handler
+
+2013-02-09
+Added .htaccess and redirection to index.php with language and params
+
+Added Requests class and Strings class
+
+2013-02-08
+Added the autoload
+
+2013-02-07
+Created Bootstrap and config
+
+2013-02-06
+Created Framework base
+
