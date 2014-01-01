@@ -13,5 +13,5 @@ namespace CataloniaFramework;
 
 ?><link rel="author" href="/humans.txt" />
 <link rel="stylesheet" type="text/css" href="/css/default.css" />
-<script src="/js/jquery-1.9.1.min.js"></script>
+<script src="/js/jquery-1.10.2.min.js"></script>
 <title>||*||[APP_TITLE]||*||</title>

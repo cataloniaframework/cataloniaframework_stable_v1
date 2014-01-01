@@ -1,11 +1,14 @@
 <?php
+
 /**
- * User:        carles
- * Date:        07/02/13
- * Time:        12:51
- * Filename:    index.php
- * Description:
+ * Creator:      Carles Mateo
+ * Date Created: 2013-02-07 12:51
+ * Last Updater: Carles Mateo
+ * Last Updated: 2013-12-29 22:30
+ * Filename:     index.php
+ * Description:  Small index.php that do all the jobs and catch the Exceptions
  */
+
 
 use CataloniaFramework\Views as Views;
 use CataloniaFramework\Core as Core;
@@ -36,6 +39,10 @@ try {
 } catch (DatabaseConnectionError $e) {
     // Todo: Check if in Json...
     // Error with Databases
+    $s_html = getErrorView(Views::ERROR_EXCEPTION_ERROR, Views::$s_ERROR_MESSAGES[Views::ERROR_EXCEPTION_ERROR].' '.$e->getMessage());
+} catch (DatabaseUnableToSelectDb $e) {
+    $s_html = getErrorView(Views::ERROR_EXCEPTION_ERROR, Views::$s_ERROR_MESSAGES[Views::ERROR_EXCEPTION_ERROR].' '.$e->getMessage());
+} catch (DatabaseUnableToSetCharset $e) {
     $s_html = getErrorView(Views::ERROR_EXCEPTION_ERROR, Views::$s_ERROR_MESSAGES[Views::ERROR_EXCEPTION_ERROR].' '.$e->getMessage());
 } catch (CustomFileNotFound $e) {
     $s_html = getErrorView(Views::ERROR_EXCEPTION_ERROR, Views::$s_ERROR_MESSAGES[Views::ERROR_EXCEPTION_ERROR].' '.$e->getMessage());

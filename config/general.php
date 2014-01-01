@@ -13,7 +13,7 @@ date_default_timezone_set('Europe/Andorra');
 set_time_limit(40);
 
 // Change this in order to start working
-define('FIRST_TIME', false);
+define('FIRST_TIME', true);
 if (FIRST_TIME == true) {
     require '../views/errors/catfw_firsttime.php';
     Core::end();
