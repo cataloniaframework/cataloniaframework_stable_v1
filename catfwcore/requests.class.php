@@ -3,7 +3,7 @@
  * Creator:      Carles Mateo
  * Date:         2013-02-09 11:53
  * Last Updater: Carles Mateo
- * Last Updated: 2013-12-23 16:52
+ * Last Updated: 2013-12-28 20:29
  * Filename:     requests.class.php
  * Description:
  */
@@ -12,6 +12,8 @@ namespace CataloniaFramework;
 
 abstract class Requests
 {
+    const MODE_IP_REQUEST_CLIENT = 'strict';    // Always Ip detected will be returned
+    const MODE_IP_REQUEST_PROXY  = 'proxy';     // Ip passed from proxy will be tried to returned
 
     public static function isPostRequest() {
         if ($_POST) {
@@ -44,6 +46,34 @@ abstract class Requests
         $s_referer = str_replace("'", '', $s_referer);
 
         return $s_referer;
+    }
+
+    public static function getServerName() {
+        $s_server_name = isset($_SERVER['SERVER_NAME']) ? (string)$_SERVER['SERVER_NAME'] : '';
+
+        return $s_server_name;
+    }
+
+    public static function getClientIp($s_mode = self::MODE_IP_REQUEST_CLIENT) {
+        // Please note, that if we use Load Balancer/CDN proxies we need to use X_FORWARDED_FOR instead.
+        // Note too that the headers may have been modified in order to force SQL Injects or others.
+
+        $s_client_ip = $_SERVER["REMOTE_ADDR"];
+        $s_ip_returned = $s_client_ip;
+
+        if ($s_mode == self::MODE_IP_REQUEST_PROXY) {
+            $s_proxy_ips  = @getenv("HTTP_X_FORWARDED_FOR");
+            $st_proxy_ips = explode(",",$s_proxy_ips);
+            if (count($st_proxy_ips) > 0) {
+                $s_proxy_ip = end($st_proxy_ips);
+                // For Security, to prevent Sql Injections through headers
+                $s_proxy_ip = str_replace("'", '', $s_proxy_ip);
+                $s_ip_returned = $s_proxy_ip;
+            }
+        }
+
+        // We could check for data integrity via preg_match and set an error
+        return trim($s_ip_returned);
     }
 
 }

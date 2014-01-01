@@ -1,13 +1,13 @@
 <?php
 
-    /**
-     * Creator:      Carles Mateo
-     * Date Created: 2013-02-17 23:46
-     * Last Updater: Carles Mateo
-     * Last Updated: 2013-12-19 19:20
-     * Filename:     Db.class.php
-     * Description:  Handles interactions with the Databases
-     */
+/**
+ * Creator:      Carles Mateo
+ * Date Created: 2013-02-17 23:46
+ * Last Updater: Carles Mateo
+ * Last Updated: 2013-12-28 21:34
+ * Filename:     Db.class.php
+ * Description:  Handles interactions with the Databases
+ */
 
 namespace CataloniaFramework;
 
@@ -15,12 +15,13 @@ class Db
 {
 
     const TYPE_CONNECTION_MYSQL     = 'mysql';
-	const TYPE_CONNECTION_MYSQLI    = 'mysqli';
+    const TYPE_CONNECTION_MYSQLI    = 'mysqli';
     const TYPE_CONNECTION_POSTGRE   = 'pg';
+    const TYPE_CONNECTION_CASSANDRA = 'cassandra';  // NoSQL Cassandra
 
-	const SERVER_LOCALHOST = 'localhost';
-	const CONNECTION_METHOD_UNIX_SOCKETS    = 'unix_sockets';
-	const CONNECTION_METHOD_TCPIP           = 'tcpip';
+    const SERVER_LOCALHOST = 'localhost';
+    const CONNECTION_METHOD_UNIX_SOCKETS    = 'unix_sockets';
+    const CONNECTION_METHOD_TCPIP           = 'tcpip';
 
     const CONNECTION_READ   = 'read';
     const CONNECTION_WRITE  = 'write';
@@ -121,19 +122,19 @@ class Db
 
     // destructor
     public function __destruct() {
-    	try {
-    		if ($this->o_connection_read !== null) {
-				if ($this->s_type_connection_read == self::TYPE_CONNECTION_MYSQL) {
-					@mysql_close($this->o_connection_read);
-				}
-				if ($this->s_type_connection_read == self::TYPE_CONNECTION_MYSQLI) {
-					@mysqli_close($this->o_connection_read);
-				}
-				if ($this->s_type_connection_read == self::TYPE_CONNECTION_POSTGRE) {
-					@pg_close($this->o_connection_read);
-				}
+        try {
+            if ($this->o_connection_read !== null) {
+                if ($this->s_type_connection_read == self::TYPE_CONNECTION_MYSQL) {
+                    @mysql_close($this->o_connection_read);
+                }
+                if ($this->s_type_connection_read == self::TYPE_CONNECTION_MYSQLI) {
+                    @mysqli_close($this->o_connection_read);
+                }
+                if ($this->s_type_connection_read == self::TYPE_CONNECTION_POSTGRE) {
+                    @pg_close($this->o_connection_read);
+                }
 
-    		}
+            }
 
             if ($this->b_same_server == false) {
                 if ($this->o_connection_write !== null) {
@@ -149,9 +150,9 @@ class Db
                 }
             }
 
-    	} catch (Exception $e) {
-    		//$this->log_error('Error:'.$e->getMessage(), 'ERROR');
-    	}
+        } catch (Exception $e) {
+            //$this->log_error('Error:'.$e->getMessage(), 'ERROR');
+        }
     }
 
 
@@ -210,27 +211,33 @@ class Db
             $s_connection_client_encoding = $this->s_connection_client_encoding_write;
         }
 
-   		if ($s_type_connection==self::TYPE_CONNECTION_MYSQL) {
+        if ($s_type_connection==self::TYPE_CONNECTION_MYSQL) {
 
-	        $o_connection = mysql_connect($s_server_hostname.':'.$s_server_port, $s_server_username, $s_server_password);
-            mysql_set_charset($s_connection_client_encoding, $o_connection);
+            $o_connection = mysql_connect($s_server_hostname.':'.$s_server_port, $s_server_username, $s_server_password);
+            if (!mysql_set_charset($s_connection_client_encoding, $o_connection)) {
+                $s_error = 'Unable to set charset';
+                throw new DatabaseUnableToSetCharset('Unable to set charset: '.$s_connection_client_encoding);
+            }
             if (!@mysql_select_db($s_server_database, $o_connection)) {
-				$s_error = 'Unable to select database';
-				//die( "Unable to select database");
+                $s_error = 'Unable to select database';
+                //die( "Unable to select database");
                 throw new DatabaseUnableToSelectDb('Unable to select database: '.$s_server_database);
-			}
-		}
+            }
+        }
 
-   		if ($s_type_connection==self::TYPE_CONNECTION_MYSQLI) {
+        if ($s_type_connection==self::TYPE_CONNECTION_MYSQLI) {
 
-	        $o_connection = mysqli_connect($s_server_hostname.':'.$s_server_port, $s_server_username, $s_server_password);
-            mysqli_set_charset($o_connection, $s_connection_client_encoding);
+            $o_connection = mysqli_connect($s_server_hostname, $s_server_username, $s_server_password, $s_server_database, $s_server_port);
+            if (!mysqli_set_charset($o_connection, $s_connection_client_encoding)) {
+                $s_error = 'Unable to set charset';
+                throw new DatabaseUnableToSetCharset('Unable to set charset: '.$s_connection_client_encoding);
+            }
             if (!@mysqli_select_db($o_connection, $s_server_database)) {
-				$s_error = 'Unable to select database';
-				//die( "Unable to select database");
+                $s_error = 'Unable to select database';
+                //die( "Unable to select database");
                 throw new DatabaseUnableToSelectDb('Unable to select database: '.$s_server_database);
-			}
-		}
+            }
+        }
 
         if ($s_type_connection == self::TYPE_CONNECTION_POSTGRE) {
             $s_conn_string = "host=$s_server_hostname port=$s_server_port dbname=$s_server_database user=$s_server_username password=$s_server_password";
@@ -253,36 +260,36 @@ class Db
         return $this->queryConnection($s_sql, $this->s_type_connection_write, $this->o_connection_write, self::QUERY_TYPE_WRITE);
     }
 
-	public function queryConnection($s_sql, &$s_type_connection, &$o_connection, $s_query_type = self::QUERY_TYPE_READ)
-	{
+    public function queryConnection($s_sql, &$s_type_connection, &$o_connection, $s_query_type = self::QUERY_TYPE_READ)
+    {
 
-		$i_num = 0;
+        $i_num = 0;
 
-		$st_result = Array('result' => Array(   'status'                    => 0,
-                                                'error'                     => 0,
-                                                'error_description'         => 'Not executed yet',
-                                                'numrows'                   => 0,
-                                                'insert_id'                 => null,
-                                                'query'                     => $s_sql,
-                                                'query_type'                => null,
-                                                'profiler_request_start'    => Datetime::getDateTime(Datetime::FORMAT_MICROTIME),
-                                                'profiler_request_end'      => 0),
-                           'data'=>Array()
-						   );
+        $st_result = Array('result' => Array(   'status'                    => 0,
+            'error'                     => 0,
+            'error_description'         => 'Not executed yet',
+            'numrows'                   => 0,
+            'insert_id'                 => null,
+            'query'                     => $s_sql,
+            'query_type'                => null,
+            'profiler_request_start'    => Datetime::getDateTime(Datetime::FORMAT_MICROTIME),
+            'profiler_request_end'      => 0),
+            'data'=>Array()
+        );
 
-		// Extra security
-		try {
-			if (!$o_connection) {
-				//$this->log_error('It was unable to connect to the database.', 'WEB');
+        // Extra security
+        try {
+            if (!$o_connection) {
+                //$this->log_error('It was unable to connect to the database.', 'WEB');
                 $st_result['result']['numrows'] = 0;
                 $st_result['result']['status'] = 1;
                 $st_result['result']['error'] = 1;
                 $st_result['result']['error_description'] = 'Unable to connect to the database';
-			}
-			else
-			{
-				if ($s_type_connection == self::TYPE_CONNECTION_MYSQL) {
-					$o_result = mysql_query($s_sql, $o_connection);
+            }
+            else
+            {
+                if ($s_type_connection == self::TYPE_CONNECTION_MYSQL) {
+                    $o_result = mysql_query($s_sql, $o_connection);
 
                     if ($o_result === false) {
                         // Query Failed
@@ -303,7 +310,7 @@ class Db
                         // Query was SELECT, SHOW, DESCRIBE or EXPLAIN and successful
                         $i_num = mysql_num_rows($o_result);
                     }
-				}
+                }
 
                 if ($s_type_connection == self::TYPE_CONNECTION_MYSQLI) {
                     $o_result = mysqli_query($o_connection, $s_sql);
@@ -328,73 +335,73 @@ class Db
                         $i_num = mysqli_num_rows($o_result);
                     }
 
-				}
+                }
 
                 if ($s_type_connection == self::TYPE_CONNECTION_POSTGRE) {
-					$o_result = pg_query($o_connection, $s_sql);
+                    $o_result = pg_query($o_connection, $s_sql);
 
                     if ($o_result == false) {
                         $st_result['result']['error'] = $st_result['result']['error'] +1;
                         $st_result['result']['error_description'] = pg_last_error($o_connection);
                     }
 
-					$i_num = pg_num_rows($o_result);
-				}
+                    $i_num = pg_num_rows($o_result);
+                }
 
-				$i_pointer=0;
+                $i_pointer=0;
 
-				if ($i_num>0) {
-					while ($i_pointer<$i_num)
-					{
-						// Note: Uncomment in case you want to fill the array starting from 1 not from 0. I prefer this way for teaching
-						//       juniors since count gives the position of the last item, and in for bucles
-						//       there is no need to substract 1 to get the last one.
-						//$i_pointer++;
-						if ($s_type_connection == self::TYPE_CONNECTION_MYSQL) {
-							$st_result['data'][$i_pointer] = mysql_fetch_array($o_result, MYSQL_ASSOC);
-						}
+                if ($i_num>0) {
+                    while ($i_pointer<$i_num)
+                    {
+                        // Note: Uncomment in case you want to fill the array starting from 1 not from 0. I prefer this way for teaching
+                        //       juniors since count gives the position of the last item, and in for bucles
+                        //       there is no need to substract 1 to get the last one.
+                        //$i_pointer++;
+                        if ($s_type_connection == self::TYPE_CONNECTION_MYSQL) {
+                            $st_result['data'][$i_pointer] = mysql_fetch_array($o_result, MYSQL_ASSOC);
+                        }
                         if ($s_type_connection == self::TYPE_CONNECTION_POSTGRE) {
-							$st_result['data'][$i_pointer] = pg_fetch_array($o_result, PGSQL_ASSOC);
-						}
+                            $st_result['data'][$i_pointer] = pg_fetch_array($o_result, PGSQL_ASSOC);
+                        }
                         if ($s_type_connection == self::TYPE_CONNECTION_MYSQLI) {
-							$st_result['data'][$i_pointer] = mysqli_fetch_array($o_result, MYSQLI_ASSOC);
-						}
+                            $st_result['data'][$i_pointer] = mysqli_fetch_array($o_result, MYSQLI_ASSOC);
+                        }
                         $i_pointer++;
-					}
-					$st_result['result']['error_description'] = 'Results returned Ok';
-				}
-				else
-				{
-					$st_result['result']['error_description'] = 'No results returned';
-				}
+                    }
+                    $st_result['result']['error_description'] = 'Results returned Ok';
+                }
+                else
+                {
+                    $st_result['result']['error_description'] = 'No results returned';
+                }
 
-				$st_result['result']['numrows'] = $i_num;
-				$st_result['result']['status'] = 1;
-				$st_result['result']['error'] = 0;
-				$st_result['result']['profiler_request_end'] = Datetime::getDateTime(DateTime::FORMAT_MICROTIME);
+                $st_result['result']['numrows'] = $i_num;
+                $st_result['result']['status'] = 1;
+                $st_result['result']['error'] = 0;
+                $st_result['result']['profiler_request_end'] = Datetime::getDateTime(DateTime::FORMAT_MICROTIME);
 
-			}
+            }
 
-			if (LOG_SQL_TO_FILE == true){
-				//FileUtils::log_to_file($s_sql, LOG_SQL_FILE, 'a', 'extended', 'Report from Db.class Profile: '.$st_result['result']['profiler_request_start'].'-'.$st_result['result']['profiler_request_end']);
-			}
+            if (LOG_SQL_TO_FILE == true){
+                //FileUtils::log_to_file($s_sql, LOG_SQL_FILE, 'a', 'extended', 'Report from Db.class Profile: '.$st_result['result']['profiler_request_start'].'-'.$st_result['result']['profiler_request_end']);
+            }
 
-		}
-		catch(Exception $e){
-			//$this->log_error('Error:'.$e->getMessage(), 'ERROR');
+        }
+        catch(Exception $e){
+            //$this->log_error('Error:'.$e->getMessage(), 'ERROR');
 
-			$st_result['result']['numrows'] = $i_num;
-			$st_result['result']['status'] = 1;
-			$st_result['result']['error'] = 1;
-			$st_result['result']['error_description'] = $e->getMessage();
+            $st_result['result']['numrows'] = $i_num;
+            $st_result['result']['status'] = 1;
+            $st_result['result']['error'] = 1;
+            $st_result['result']['error_description'] = $e->getMessage();
 
-		}
+        }
 
-		return $st_result;
-	}
+        return $st_result;
+    }
 
     /*
-     * Creator:      Marcos Catalán
+     * Creator:      M.
      * Date Created: 2013-12-18 21:52
      * Last Updater: Carles Mateo
      * Last Updated: 2013-12-21 14:30

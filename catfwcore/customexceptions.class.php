@@ -21,3 +21,4 @@ class CustomFileNotDefined extends Exception {}
 class CustomClassNotFound extends Exception {}
 class CurrencyNotFoundException extends Exception {}
 class DatabaseUnableToSelectDb extends Exception {}
+class DatabaseUnableToSetCharset extends Exception {}

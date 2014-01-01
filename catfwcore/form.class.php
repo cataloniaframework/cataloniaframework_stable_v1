@@ -3,10 +3,10 @@
 /**
  * Creator:      Carles Mateo
  * Date Created: 2013-03-01 00:55
- * Last Updater:
- * Last Updated:
+ * Last Updater: 2013-12-20 10:10
+ * Last Updated: Carles Mateo
  * Filename:     form.class.php
- * Version:      1.095
+ * Version:      1.097
  * Description:
  */
 

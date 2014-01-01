@@ -3,10 +3,13 @@
  * Creator:      Carles Mateo
  * Date:         2013-02-07 12:53
  * Last Updater: Carles Mateo
- * Last Updated: 2013-09-15 17:36
+ * Last Updated: 2013-09-25 11:36
  * Filename:     bootstrap.php
  * Description:
  */
+
+require_once 'requests.class.php';  // For Multi-Development environments in development config
+use CataloniaFramework\Requests as Requests;
 
 require_once '../config/general.php';
 // Db is required in general
@@ -20,8 +23,6 @@ spl_autoload_register('catfw_autoload');
 
 require_once CATFW_CORE_ROOT.'strings.class.php';
 use CataloniaFramework\Strings as Strings;
-require_once CATFW_CORE_ROOT.'requests.class.php';
-use CataloniaFramework\Requests as Requests;
 require_once CATFW_CORE_ROOT.'section.class.php';
 use CataloniaFramework\Section as Section;
 require_once CATFW_CORE_ROOT.'core.class.php';
