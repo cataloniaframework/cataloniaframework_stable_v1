@@ -1,7 +1,33 @@
+2014-01-01 - v. 1.1.012 Released
+Added jquery-1.10.2 to DemoApp
+
+2013-12-31 - v. 1.1.012
+Changed default locale to en_US.UTF8
+
+2013-12-29 - v. 1.1.012
+Added Custom Exception to index.php to differentiate between database error (if developer wants)
+
+2013-12-28 - v. 1.1.012
+Improved Requests::getClientIp
+
+Added new Custom Exception:
+class DatabaseUnableToSetCharset extends Exception {}
+
+Fixed bug with port for MySqli driver in Db class
+
+2013-12-25 - v. 1.1.012
+Autoload improved
+
+Bootstrap improved to allow multi-development environments (requests.class.php is loaded first)
+
+------------------------------------------------------------------
+
 2013-12-23 - v. 1.1.011 - Released version
 Fixed feature that only worked with PHP 5.4 and greater to PHP 5.3
 
 New method in Requests class getHttpReferer
+
+New method Requests::getServerName
 
 2013-12-22 - v. 1.1.011
 Added support for right bar at getSectionUrl
@@ -15,10 +41,10 @@ https://github.com/cataloniaframework/cataloniaframework_stable_v1
 Comments on method prepareInsert
 
 2013-12-20 - v. 1.1.011
-Fixed bug when encoding for database primary (writes) is different that encoding for secondaries (reads). Contributed by Marcos Catalán
+Fixed bug when encoding for database primary (writes) is different that encoding for secondaries (reads). Contributed by M.
 
 2013-12-18 - v. 1.1.011
-Password added to Form. Contributed by Marcos Catalan
+Password added to Form. Contributed by M.
 
 Added insert_id support for mysqli
 
