@@ -1,10 +1,11 @@
 <?php
 /**
- * User:        Carles Mateo
- * Date:        2013-02-07
- * Time:        21:11
- * Filename:    development.php
- * Description:
+ * Creator:      Carles Mateo
+ * Date Created: 2013-02-07 21:11
+ * Last Updater: Carles Mateo
+ * Last Updated: 2013-12-28 21:34
+ * Filename:     development.php
+ * Description:  Defines paths and setups for the development environment
  */
 
 use CataloniaFramework\Db as Db;
@@ -47,7 +48,7 @@ $p_st_languages = array ( 'ca' => array('default'   => true,
                                        ),
                         );
 
-define('LANGUAGE_DEFAULT', 'ca');
+define('LANGUAGE_DEFAULT', 'en');
 
 
 // If we log SQL Inserts to FILE. Normally for Debug.

@@ -1,10 +1,11 @@
 <?php
 /**
- * User:        Carles Mateo
- * Date:        2013-02-07
- * Time:        21:12
- * Filename:    preproduction.php
- * Description:
+ * Creator:      Carles Mateo
+ * Date Created: 2013-02-07 21:12
+ * Last Updater: Carles Mateo
+ * Last Updated: 2013-12-28 21:34
+ * Filename:     preproduction.php
+ * Description:  Defines paths and setups for the PreProduction environment
  */
 
 use CataloniaFramework\Db as Db;

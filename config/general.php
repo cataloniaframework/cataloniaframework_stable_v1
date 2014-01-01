@@ -1,13 +1,13 @@
 <?php
 
-define('FRAMEWORK_VERSION', '1.1.010');
+define('FRAMEWORK_VERSION', '1.1.012');
 define('CATALONIAFW_VERSION', 'v. '.FRAMEWORK_VERSION);
 define('CATALONIAFW_URL', 'http://www.cataloniaframework.com/');
 
 
 define('CHARSET','UTF-8');
 ini_set('default_charset', 'utf-8');
-setlocale(LC_ALL, 'es_ES.UTF8');
+setlocale(LC_ALL, 'en_US.UTF8');
 date_default_timezone_set('Europe/Andorra');
 
 set_time_limit(40);
