@@ -54,6 +54,8 @@ require_once CATFW_CORE_ROOT.'form.class.php';
 use CataloniaFramework\Form as Form;
 require_once CATFW_CORE_ROOT.'session.class.php';
 use CataloniaFramework\Session as Session;
+require_once CATFW_CORE_ROOT.'security.class.php';
+use CataloniaFramework\Security as Security;
 
 $s_user_language = LANGUAGE_DEFAULT;
 
@@ -75,7 +77,7 @@ if (Navigation::isURLCustom(REQUESTED_PATH) == true) {
     $s_action = 'CATFW_getCustomContent';
 
     if (!Core::loadController($s_controller)) {
-        echo getErrorView(Views::ERROR_CONTROLLER_OR_ACTION_NOT_FOUND, Views::$s_ERROR_MESSAGES[Views::ERROR_CONTROLLER_OR_ACTION_NOT_FOUND]);
+        echo getErrorView(Views::ERROR_CONTROLLER_OR_ACTION_NOT_FOUND, Views::$st_ERROR_MESSAGES[Views::ERROR_CONTROLLER_OR_ACTION_NOT_FOUND]);
         Core::end();
     }
 
@@ -164,7 +166,7 @@ if (Navigation::isURLCustom(REQUESTED_PATH) == true) {
     if (!Core::isValidName($s_controller) || !Core::isValidName($s_action) ||
         !Core::loadController($s_controller)) {
         // Invalid name of controller or action
-        echo getErrorView(Views::ERROR_CONTROLLER_OR_ACTION_NOT_FOUND, Views::$s_ERROR_MESSAGES[Views::ERROR_CONTROLLER_OR_ACTION_NOT_FOUND]);
+        echo getErrorView(Views::ERROR_CONTROLLER_OR_ACTION_NOT_FOUND, Views::$st_ERROR_MESSAGES[Views::ERROR_CONTROLLER_OR_ACTION_NOT_FOUND]);
         Core::end();
     }
 
@@ -177,7 +179,7 @@ if (Navigation::isURLCustom(REQUESTED_PATH) == true) {
 
     if (!method_exists($o_controller, $s_action)) {
         // Invalid name of controller or action
-        echo getErrorView(Views::ERROR_CONTROLLER_OR_ACTION_NOT_FOUND, Views::$s_ERROR_MESSAGES[Views::ERROR_CONTROLLER_OR_ACTION_NOT_FOUND]);
+        echo getErrorView(Views::ERROR_CONTROLLER_OR_ACTION_NOT_FOUND, Views::$st_ERROR_MESSAGES[Views::ERROR_CONTROLLER_OR_ACTION_NOT_FOUND]);
         Core::end();
     }
 
@@ -185,6 +187,9 @@ if (Navigation::isURLCustom(REQUESTED_PATH) == true) {
 
 define('CONTROLLER', $s_controller);
 define('ACTION', $s_action);
+
+// Log the visit
+CommonRequests::logRequest($o_db);
 
 // Create parameter list
 $st_params = array_values($st_params);

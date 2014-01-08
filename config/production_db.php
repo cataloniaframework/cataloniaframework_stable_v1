@@ -4,7 +4,7 @@
  * Date Created: 2013-02-07 21:11
  * Last Updater: Carles Mateo
  * Last Updated: 2013-12-28 21:34
- * Filename:     preproduction_db.php
+ * Filename:     production_db.php
  * Description:  Defines connectivity and connection properties for databases in PreProduction environment
  */
 

@@ -3,10 +3,10 @@
     /**
      * Creator:      Carles Mateo
      * Date Created: 2013-02-20 11:22
-     * Last Updater:
-     * Last Updated:
-     * Filename:     commonuservars.class.php
-     * Description:
+     * Last Updater: Carles Mateo
+     * Last Updated: 2014-01-07 13:31
+     * Filename:     commonrequests.class.php
+     * Description:  Space for the custom developments
      */
 
 namespace CataloniaFramework;
@@ -80,6 +80,17 @@ abstract class CommonRequests
         //Section::registerSection('contact', $s_prefix.'contact');
         //Section::registerSection('donate', $s_prefix.'donate');
         Section::registerSection('manual', $s_prefix.'manual', 'Manual', 'Index');
+    }
+
+    // Use this method to log to the database the request
+    public static function logRequest($o_db = null) {
+
+
+    }
+
+    // Executed from ending with Core::End
+    public static function endRequest($o_db = null) {
+
     }
 
 }

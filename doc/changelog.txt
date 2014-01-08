@@ -1,3 +1,41 @@
+2014-01-08 - v. 1.1.013 Released
+Carles Mateo:
+Headers are sent always in index.php
+
+Improved first-time template
+
+Added a mechanism to track new installations of the Framework
+
+Improved documentation
+
+2014-01-07 - v. 1.1.013
+Carles Mateo:
+Created CommonRequests::logRequest
+
+Created CommonRequests::endRequest
+
+Added Contact Form for DemoApp in English Template
+
+Added RESPONSE_IMAGE_PNG
+
+Fixed prefix st_ that was appearing as s_
+
+2014-01-06 - v. 1.1.013
+Added constant for LIB folder
+
+Security class loaded in bootstrap
+
+Improvements in Security Class to BASE64 and added Control String for ciphered fields.
+
+Fixed a bug when raising a CustomException from autoload (was out of the namespace).
+
+cipherParam now allow to crypt and decrypt objects (as well as binary).
+
+2014-01-05 - v. 1.1.013
+Added Security Class with cipher and decipher for params, and UUID v3, v4 and v5.
+
+------------------------------------------------------------------
+
 2014-01-01 - v. 1.1.012 Released
 Added jquery-1.10.2 to DemoApp
 

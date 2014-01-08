@@ -1,6 +1,6 @@
 <?php
 
-define('FRAMEWORK_VERSION', '1.1.012');
+define('FRAMEWORK_VERSION', '1.1.013');
 define('CATALONIAFW_VERSION', 'v. '.FRAMEWORK_VERSION);
 define('CATALONIAFW_URL', 'http://www.cataloniaframework.com/');
 
@@ -45,6 +45,7 @@ define('CLASSES_ROOT', $st_server_config['storage']['classes_root']);
 define('CONTROLLERS_ROOT', CATFW_ROOT.'controllers/');
 define('MODELS_ROOT', CATFW_ROOT.'models/');
 define('VIEWS_ROOT', CATFW_ROOT.'views/');
+define('LIB_ROOT', CATFW_ROOT.'lib/');
 define('CUSTOM_INIT_ROOT', CATFW_ROOT.'init/');
 define('TRANSLATIONS_ROOT', CATFW_ROOT.'translations/');
 define('CACHE_ROOT', CATFW_ROOT.'cache/');

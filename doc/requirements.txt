@@ -7,3 +7,7 @@ Rewrite for Apache (mod_rewrite. Can add with sudo a2enmod rewrite)
 Support for output_buffering in php.ini
 
 Curl is optional, only if you need to use it.
+
+mcrypt is recommended for cipher/decipher functionality
+
+GD graphics library is optional (install for Debian with sudo apt-get install php5-gd and for CentOs yum install php-gd)

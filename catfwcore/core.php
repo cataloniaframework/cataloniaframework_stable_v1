@@ -84,7 +84,7 @@ function getView($s_view_name, $st_view_vars = Array(), $b_cache = false, $i_cac
         $b_generate_cache = false;
 
         $i_error_code = Views::ERROR_FILE_NOT_FOUND;
-        $s_error_msg  = Views::$s_ERROR_MESSAGES[Views::ERROR_FILE_NOT_FOUND];
+        $s_error_msg  = Views::$st_ERROR_MESSAGES[Views::ERROR_FILE_NOT_FOUND];
         require VIEWS_ROOT.'errors/errorgeneric.php';
     }
 
@@ -114,7 +114,7 @@ function getErrorView($i_error_code, $s_error_msg, $s_error_view_name = 'errorge
         // Can't find the error file
         if (file_exists(VIEWS_ROOT.'errors/errorgeneric.php')) {
             $i_error_code = Views::ERROR_TEMPLATE_ERROR_FILE_NOT_FOUND;
-            $s_error_msg  = Views::$s_ERROR_MESSAGES[Views::ERROR_TEMPLATE_ERROR_FILE_NOT_FOUND];
+            $s_error_msg  = Views::$st_ERROR_MESSAGES[Views::ERROR_TEMPLATE_ERROR_FILE_NOT_FOUND];
             require VIEWS_ROOT.'errors/errorgeneric.php';
         } else {
             ob_end_clean();
@@ -135,7 +135,7 @@ function getFile($s_file) {
         require $s_file;
     } else {
         $i_error_code = Views::ERROR_FILE_NOT_FOUND;
-        $s_error_msg  = Views::$s_ERROR_MESSAGES[Views::ERROR_FILE_NOT_FOUND];
+        $s_error_msg  = Views::$st_ERROR_MESSAGES[Views::ERROR_FILE_NOT_FOUND];
         require VIEWS_ROOT.'errors/errorgeneric.php';
     }
 

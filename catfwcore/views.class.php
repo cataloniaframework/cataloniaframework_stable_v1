@@ -31,11 +31,11 @@ abstract class Views
 
     const SYSTEMVAR_PREFIX = 'CATFW_';
 
-    public static $s_ERROR_MESSAGES = Array(self::ERROR_FILE_NOT_FOUND                  => 'File not found',
-                                            self::ERROR_CONTROLLER_OR_ACTION_NOT_FOUND  => 'Controller or Action not found',
-                                            self::ERROR_INTERNAL_ERROR                  => 'Internal error',
-                                            self::ERROR_EXCEPTION_ERROR                 => 'Exception error',
-                                            self::ERROR_TEMPLATE_ERROR_FILE_NOT_FOUND   => 'Error Template not found');
+    public static $st_ERROR_MESSAGES = Array(self::ERROR_FILE_NOT_FOUND                  => 'File not found',
+                                             self::ERROR_CONTROLLER_OR_ACTION_NOT_FOUND  => 'Controller or Action not found',
+                                             self::ERROR_INTERNAL_ERROR                  => 'Internal error',
+                                             self::ERROR_EXCEPTION_ERROR                 => 'Exception error',
+                                             self::ERROR_TEMPLATE_ERROR_FILE_NOT_FOUND   => 'Error Template not found');
 
     public static $st_USERVARS       = Array();
 

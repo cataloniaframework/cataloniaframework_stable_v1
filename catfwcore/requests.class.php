@@ -3,7 +3,7 @@
  * Creator:      Carles Mateo
  * Date:         2013-02-09 11:53
  * Last Updater: Carles Mateo
- * Last Updated: 2013-12-28 20:29
+ * Last Updated: 2014-01-07 14:08
  * Filename:     requests.class.php
  * Description:
  */
@@ -76,4 +76,22 @@ abstract class Requests
         return trim($s_ip_returned);
     }
 
+    public static function getUserAgent() {
+        $s_user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+
+        // Remove Sql Injections
+        $s_user_agent = str_replace("'", '', $s_user_agent);
+
+        return $s_user_agent;
+    }
+
+    public static function getRequestedUrl() {
+
+        $s_request_uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
+
+        // Remove Sql Injections
+        $s_request_uri = str_replace("'", '', $s_request_uri);
+
+        return $s_request_uri;
+    }
 }

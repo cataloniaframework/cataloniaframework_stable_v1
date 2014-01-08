@@ -3,8 +3,8 @@
 /**
  * Creator:      Carles Mateo
  * Date Created: 2013-02-11 00:21
- * Last Updater:
- * Last Updated:
+ * Last Updater: Carles Mateo
+ * Last Updated: 2014-01-07 19:13
  * Filename:     controllerbase.class.php
  * Description: This is a class that is extended by the controllers
  */
@@ -18,9 +18,12 @@ use CataloniaFramework\Navigation as Navigation;
 class ControllerBase
 {
 
-    const RESPONSE_TEXTHTML = 'text/html';
-    const RESPONSE_TEXT     = 'text/plain';
-    const RESPONSE_JSON     = 'application/json';
+    const RESPONSE_TEXTHTML   = 'text/html';
+    const RESPONSE_TEXT       = 'text/plain';
+    const RESPONSE_JSON       = 'application/json';
+    const RESPONSE_IMAGE_PNG  = 'image/png';
+    const RESPONSE_IMAGE_GIF  = 'image/gif';
+    const RESPONSE_IMAGE_JPEG = 'image/jpeg';
 
     const CACHE_DO_NOT_SEND = 'DO_NOT_SEND';
     const CACHE_NO_CACHE    = 'NO_CACHE';
@@ -57,6 +60,18 @@ class ControllerBase
 
         if ($this->s_content_type == ControllerBase::RESPONSE_JSON) {
             $s_content_header = 'Content-Type: application/json';
+        }
+
+        if ($this->s_content_type == ControllerBase::RESPONSE_IMAGE_PNG) {
+            $s_content_header = 'Content-Type: image/png';
+        }
+
+        if ($this->s_content_type == ControllerBase::RESPONSE_IMAGE_GIF) {
+            $s_content_header = 'Content-Type: image/gif';
+        }
+
+        if ($this->s_content_type == ControllerBase::RESPONSE_IMAGE_JPEG) {
+            $s_content_header = 'Content-Type: image/jpeg';
         }
 
         // Cache

@@ -1,8 +1,10 @@
 <?php
 /**
- * Creator:     Carles Mateo
- * Date:        09/02/13 16:19
- * Filename:    Core.class.php
+ * Creator:      Carles Mateo
+ * Date Created: 2013-02-09 16:19
+ * Last Updater: Carles Mateo
+ * Last Updated: 2014-01-08 02:05
+ * Filename:     Core.class.php
  * Description:
  */
 
@@ -11,7 +13,10 @@ namespace CataloniaFramework;
 abstract class Core
 {
 
-    public static function end() {
+    public static function end($o_db = null) {
+
+        // Call Custom End
+        CommonRequests::endRequest($o_db);
 
         exit();
     }
