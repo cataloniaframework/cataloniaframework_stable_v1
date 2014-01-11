@@ -4,15 +4,12 @@
  * Creator:      Carles Mateo
  * Date Created: 2014-01-05 12:48
  * Last Updater: Carles Mateo
- * Last Updated: 2014-01-06 15:39
+ * Last Updated: 2014-01-08 21:34
  * Filename:     security.class.php
  * Description:  Methods for Security, UUID, generating ID's, maths...
  */
 
-
-
 namespace CataloniaFramework;
-
 
 abstract class Security {
 
@@ -87,6 +84,28 @@ abstract class Security {
 
         return $m_deciphered_final;
 
+    }
+
+    // Extended UUID
+    // We need a really unique UUID
+    public static function getEUUID($s_node = 'UNDEF001') {
+        $s_separator = '-';
+
+        // Our EUUID has 8 bytes for node
+        $s_node_EUUID = substr($s_node, 0, 8);
+        $s_node_EUUID = str_pad($s_node_EUUID, 8, '0', STR_PAD_LEFT);
+
+        $i_unix_time = time();
+
+        // Our hex time has 10 bytes
+        $s_unix_time_hex = dechex($i_unix_time);
+        $s_unix_time_hex = str_pad($s_unix_time_hex, 10, '0', STR_PAD_LEFT);
+
+        $s_UUID = self::getUUIDV4();
+
+        $s_EUUID = $s_node_EUUID.$s_separator.$s_unix_time_hex.$s_separator.$s_UUID;
+
+        return $s_EUUID;
     }
 
 /**

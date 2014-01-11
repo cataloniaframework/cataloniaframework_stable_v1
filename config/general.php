@@ -1,6 +1,6 @@
 <?php
 
-define('FRAMEWORK_VERSION', '1.1.013');
+define('FRAMEWORK_VERSION', '1.1.014');
 define('CATALONIAFW_VERSION', 'v. '.FRAMEWORK_VERSION);
 define('CATALONIAFW_URL', 'http://www.cataloniaframework.com/');
 
@@ -16,7 +16,8 @@ set_time_limit(40);
 define('FIRST_TIME', true);
 if (FIRST_TIME == true) {
     require '../views/errors/catfw_firsttime.php';
-    Core::end();
+    // Core is not loaded, just exit
+    exit();
 }
 
 define('DEVELOPMENT', 'DEVELOPMENT');
@@ -49,6 +50,8 @@ define('LIB_ROOT', CATFW_ROOT.'lib/');
 define('CUSTOM_INIT_ROOT', CATFW_ROOT.'init/');
 define('TRANSLATIONS_ROOT', CATFW_ROOT.'translations/');
 define('CACHE_ROOT', CATFW_ROOT.'cache/');
+define('TMP_ROOT', $st_server_config['storage']['tmp']);
+define('NODE_NAME', $st_server_config['node']['name']);
 
 // To write errors if access to DB fails.
 define('LOG_SQL_FILE', LOGS_ROOT.'sql.log');

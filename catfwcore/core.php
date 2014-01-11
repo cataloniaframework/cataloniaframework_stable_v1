@@ -166,4 +166,3 @@ function t($s_id_translation, $s_id_language = USER_LANGUAGE) {
     return Translations::getTranslation($s_id_translation, $s_id_language);
 
 }
-

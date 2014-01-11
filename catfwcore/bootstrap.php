@@ -56,6 +56,8 @@ require_once CATFW_CORE_ROOT.'session.class.php';
 use CataloniaFramework\Session as Session;
 require_once CATFW_CORE_ROOT.'security.class.php';
 use CataloniaFramework\Security as Security;
+require_once CATFW_CORE_ROOT.'file.class.php';
+use CataloniaFramework\File as File;
 
 $s_user_language = LANGUAGE_DEFAULT;
 
@@ -188,9 +190,6 @@ if (Navigation::isURLCustom(REQUESTED_PATH) == true) {
 define('CONTROLLER', $s_controller);
 define('ACTION', $s_action);
 
-// Log the visit
-CommonRequests::logRequest($o_db);
-
 // Create parameter list
 $st_params = array_values($st_params);
 $st_params_url = Array();
@@ -202,3 +201,6 @@ for ($i_count=0; $i_count<=count($st_params); $i_count = $i_count+2) {
 
 // Load Additional custom content
 CommonRequests::registerUserVars($o_db);
+
+// Log the visit
+CommonRequests::logRequest($o_db);
