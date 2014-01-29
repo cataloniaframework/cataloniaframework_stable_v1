@@ -3,8 +3,8 @@
  /**
  * Creator:      Carles Mateo
  * Date Created: 2014-01-09 00:08
- * Last Updater: 
- * Last Updated: 
+ * Last Updater: Carles Mateo
+ * Last Updated: 2014-01-28 18:19
  * Filename:     file.class.php
  * Description:
  */
@@ -81,11 +81,15 @@ abstract class File {
 
     public static function deleteFile($s_file) {
 
+        $b_result = false;
+
         try {
-            unlink($s_file);
+            $b_result = unlink($s_file);
         } catch (\Exception $e) {
-            die('Error:'.$e->getMessage());
+            //die('Error:'.$e->getMessage());
         }
+
+        return $b_result;
     }
 
 }

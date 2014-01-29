@@ -75,6 +75,7 @@ class Form
 	const DATATYPE_VHOST = 'VHOST';
 
 	const REGEXP_EMPTY = '';
+    const REGEXP_EMAIL = '^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$';
 
 	const HELP_FIELD_NOT_HELP = '';
 
@@ -519,10 +520,10 @@ class Form
 		// Probably will be refactored
 		$b_is_password = false; $b_is_email = false; $b_is_check = false; $b_html_select_multiselect = false;
 
-        $this->addParameterToForm(	$s_param_name, $s_label, $s_help_field, $s_html_type, $s_html_class, $s_html_class_error, $s_html_size_cols, $s_html_size_rows, $s_type, $b_required, $i_length_min, $i_length_max, $i_value_min, $i_value_max,
-            $s_preg_match_mask, $st_values_accepted, $b_html_checkbox_checked, $b_html_select_multiselect, $i_max_ocurrences, $b_is_password, $b_is_email, $b_is_check,
-            $b_is_readonly, $b_is_disabled, $s_group,
-            $s_default_value, $s_current_value);
+        $this->addParameterToForm($s_param_name, $s_label, $s_help_field, $s_html_type, $s_html_class, $s_html_class_error, $s_html_size_cols, $s_html_size_rows, $s_type, $b_required, $i_length_min, $i_length_max, $i_value_min, $i_value_max,
+                                  $s_preg_match_mask, $st_values_accepted, $b_html_checkbox_checked, $b_html_select_multiselect, $i_max_ocurrences, $b_is_password, $b_is_email, $b_is_check,
+                                  $b_is_readonly, $b_is_disabled, $s_group,
+                                  $s_default_value, $s_current_value);
     }
 
     public function addPasswordToForm($s_param_name, $s_label, $s_help_field = '', $s_html_size_cols = 25, $s_type = self::DATATYPE_STRING, $s_html_class = self::HTML_NO_CLASS, $s_html_class_error = self::HTML_NO_CLASS,

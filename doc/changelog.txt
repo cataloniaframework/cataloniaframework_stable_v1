@@ -1,3 +1,40 @@
+2014-01-29 - v.1.1.015 Released
+Created crons/ folder
+
+2014-01-28 - v. 1.1.015
+File::deleteFile now returns true on success false of failure
+
+getter Db->getCqlPath
+
+getter and setter for UseDatabaseOrKeyspace
+New functionality to do not perform use database or keyspace, specially useful for Database Admin operations. (ignored in POSTGRE)
+
+2014-01-27 - v. 1.1.015
+Fixed issue, query_type was not set in the Array of results from Db.
+
+All the CQLSÍ generated files in /tmp begin with cqlsi- in order to make it easier to list, or delete.
+
+Added public var to Db Class to point where cqlsh is.
+
+Added Db->setCqlPath for easier Path changing if cqlsh is not under the default directory
+
+Db for Cassandra, first row is Array index 0, not 1, to act the same as other drivers in Db
+
+2014-01-26 - v. 1.1.015
+Added REGEXP_EMAIL to Form class
+
+Added CommonRequests::initSession
+This function will be called before any other custom in commonrequests.
+This helps to create Login and Session functionality
+
+Fixed issue with field names in CQLSÍ, that were added with ending spaces. Have been trimmed.
+
+------------------------------------------------------------------
+
+2014-01-11 - v. 1.1.014 Released
+Bug fixed: port was incorrect for server_port in config for production and preproduction.
+If the port was the default nothing was affected.
+
 2014-01-10 - v. 1.1.014
 Finished CQLSÍ Cassandra driver interface
 

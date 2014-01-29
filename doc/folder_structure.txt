@@ -17,6 +17,9 @@ config
 controllers
     Folder for your controllers
 
+crons
+    Crons to run as batch
+
 doc
     Information and documentation on the project.
 

@@ -3,7 +3,7 @@
  * Creator:      Carles Mateo
  * Date Created: 2013-02-07 21:11
  * Last Updater: Carles Mateo
- * Last Updated: 2014-01-11 22:39
+ * Last Updated: 2013-12-28 21:34
  * Filename:     development_db.php
  * Description:  Defines connectivity and connection properties for databases
  */

@@ -1,6 +1,6 @@
 <?php
 
-define('FRAMEWORK_VERSION', '1.1.014');
+define('FRAMEWORK_VERSION', '1.1.015');
 define('CATALONIAFW_VERSION', 'v. '.FRAMEWORK_VERSION);
 define('CATALONIAFW_URL', 'http://www.cataloniaframework.com/');
 

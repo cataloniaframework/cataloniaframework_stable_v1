@@ -3,7 +3,7 @@
  * Creator:      Carles Mateo
  * Date:         2013-02-07 12:53
  * Last Updater: Carles Mateo
- * Last Updated: 2013-09-25 11:36
+ * Last Updated: 2014-01-26 18:22
  * Filename:     bootstrap.php
  * Description:
  */
@@ -65,13 +65,15 @@ $o_db = new Db($st_server_config['database']);
 
 $b_is_custom_section = false;
 
-// Define user custom hardcoded URLs
-CommonRequests::registerURLS();
-
 $s_params = Requests::getParamStringGET('params');
 $st_params = Strings::getParamsFromURL($s_params);
 
 define('REQUESTED_PATH', $s_params);
+
+CommonRequests::initSession($o_db);
+
+// Define user custom hardcoded URLs
+CommonRequests::registerURLS();
 
 if (Navigation::isURLCustom(REQUESTED_PATH) == true) {
     // We use a special method to load Custom Content

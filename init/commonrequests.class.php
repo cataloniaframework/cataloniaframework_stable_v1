@@ -4,7 +4,7 @@
      * Creator:      Carles Mateo
      * Date Created: 2013-02-20 11:22
      * Last Updater: Carles Mateo
-     * Last Updated: 2014-01-07 13:31
+     * Last Updated: 2014-01-26 18:19
      * Filename:     commonrequests.class.php
      * Description:  Space for the custom developments
      */
@@ -13,6 +13,10 @@ namespace CataloniaFramework;
 
 abstract class CommonRequests
 {
+
+    public static function initSession($o_db = null) {
+
+    }
 
     // Define here the user vars that are to be defined commonly for all the requests
     // for example the footer
@@ -84,7 +88,6 @@ abstract class CommonRequests
 
     // Use this method to log to the database the request
     public static function logRequest($o_db = null) {
-
 
     }
 
