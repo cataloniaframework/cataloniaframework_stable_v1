@@ -4,7 +4,7 @@
      * Creator:      Carles Mateo
      * Date Created: 2013-02-20 11:22
      * Last Updater: Carles Mateo
-     * Last Updated: 2014-01-26 18:19
+     * Last Updated: 2014-02-01 23:03
      * Filename:     commonrequests.class.php
      * Description:  Space for the custom developments
      */
@@ -71,6 +71,7 @@ abstract class CommonRequests
 
     public static function registerSections($o_db = null) {
         // Here can register your own sections
+        // Please note sections can have only one or two levels like: /en/dashboard and /en/dashboard/main
 
         if (MULTILANG==true) {
             $s_prefix = '/'.USER_LANGUAGE.'/';

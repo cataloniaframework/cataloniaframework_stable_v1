@@ -1,0 +1,18 @@
+{
+    "name": "carlesmateo/cataloniaframework",
+    "require": {
+        "php": ">=5.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8"
+    },
+    "suggest": {
+        "lib-curl": "^7.35"
+    },
+    "authors": [
+        {
+            "name": "Carles Mateo",
+            "email": "carles@carlesmateo.com"
+        }
+    ]
+}

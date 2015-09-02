@@ -11,3 +11,5 @@ Curl is optional, only if you need to use it.
 mcrypt is recommended for cipher/decipher functionality
 
 GD graphics library is optional (install for Debian with sudo apt-get install php5-gd and for CentOs yum install php-gd)
+
+Phpunit is optional, recommended for Development as specified in composer.json

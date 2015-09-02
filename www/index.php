@@ -4,7 +4,7 @@
  * Creator:      Carles Mateo
  * Date Created: 2013-02-07 12:51
  * Last Updater: Carles Mateo
- * Last Updated: 2013-12-29 22:30
+ * Last Updated: 2015-09-03 13:14
  * Filename:     index.php
  * Description:  Small index.php that do all the jobs and catch the Exceptions
  */
@@ -17,8 +17,8 @@ use CataloniaFramework\Navigation as Navigation;
 try {
     $i_start_time = microtime(true);
 
+    // It loads also ../init/customprebootstrap.php ../init/custompostbootstrap.php
     require_once '../catfwcore/bootstrap.php';
-    require_once CUSTOM_INIT_ROOT.'bootstrap.php';
 
     if (Navigation::isURLCustom(REQUESTED_PATH)) {
         // custom url

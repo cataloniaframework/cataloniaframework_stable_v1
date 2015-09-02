@@ -108,4 +108,8 @@ abstract class Session {
         }
     }
 
+    public static function destroySession() {
+        self::setDataToSession(array());
+    }
+
 }

@@ -39,10 +39,13 @@ sql
 translations
     If you want to use localization put your localization files here in format section_{lang}.php
 
+vendor
+    This is the folder for the composer components install.
+
 views
     Put yout views here
 
-wwww
+www
     Here is index.php and the root for your files visible from the Internet
     js
         For your Javascript code

@@ -4,10 +4,10 @@
  * Creator:      Carles Mateo
  * Date Created: 2013-02-17 23:46
  * Last Updater: Carles Mateo
- * Last Updated: 2014-01-29 08:01
+ * Last Updated: 2014-04-09 00:16
  * Filename:     db.class.php
  * Description:  Handles interactions with the Databases
- * Version:      1.2.4
+ * Version:      1.2.5
  */
 
 namespace CataloniaFramework;
@@ -19,14 +19,16 @@ class Db
     const TYPE_CONNECTION_MYSQLI          = 'mysqli';
     const TYPE_CONNECTION_POSTGRE         = 'pg';
     const TYPE_CONNECTION_CASSANDRA_CQLSI = 'cassandra';  // NoSQL Cassandra
+    const TYPE_CONNECTION_CASSANDRA_CUD   = 'cassandra_universal';  // NoSQL Cassandra. Universal driver http://cassandradriver.com
 
     const SERVER_LOCALHOST = 'localhost';
     const CONNECTION_METHOD_UNIX_SOCKETS    = 'unix_sockets';
     const CONNECTION_METHOD_TCPIP           = 'tcpip';
 
-    const PORT_DEFAULT_MYSQL     = 3306;
-    const PORT_DEFAULT_POSTGRE   = 5432;
-    const PORT_DEFAULT_CASSANDRA = 9160;
+    const PORT_DEFAULT_MYSQL         = 3306;
+    const PORT_DEFAULT_POSTGRE       = 5432;
+    const PORT_DEFAULT_CASSANDRA     = 9160;
+    const PORT_DEFAULT_CASSANDRA_CUD = 1714;
 
     const CONNECTION_READ   = 'read';
     const CONNECTION_WRITE  = 'write';
@@ -71,7 +73,7 @@ class Db
     private $s_server_password_read  = null;
     private $s_server_password_write = null;
 
-    private $s_server_database_read = null;
+    private $s_server_database_read  = null;
     private $s_server_database_write = null;
 
     private $s_type_connection_read  = null;
@@ -85,6 +87,21 @@ class Db
 
     private $s_error_read   = null;
     private $s_error_write  = null;
+
+    // Use for Cassandra Universal Driver
+    private $s_cassandra_cud_hostname_read          = null;
+    private $s_cassandra_cud_port_read              = null;
+    private $s_cassandra_cud_cluster_hostname_read  = null;
+    private $s_cassandra_cud_cluster_port_read      = null;
+    private $s_cassandra_cud_cluster_username_read  = null;
+    private $s_cassandra_cud_cluster_password_read  = null;
+
+    private $s_cassandra_cud_hostname_write         = null;
+    private $s_cassandra_cud_port_write             = null;
+    private $s_cassandra_cud_cluster_hostname_write = null;
+    private $s_cassandra_cud_cluster_port_write     = null;
+    private $s_cassandra_cud_cluster_username_write = null;
+    private $s_cassandra_cud_cluster_password_write = null;
 
     public function __construct($st_database) {
 
@@ -119,6 +136,45 @@ class Db
         }
         if (isset($st_database['write']['servers'][0]['client_encoding'])) {
             $this->s_connection_client_encoding_write = $st_database['write']['servers'][0]['client_encoding'];
+        }
+
+        if (isset($st_database['read']['servers'][0]['cassandra_cud_hostname'])) {
+            $this->s_cassandra_cud_hostname_read = $st_database['read']['servers'][0]['cassandra_cud_hostname'];
+        }
+        if (isset($st_database['write']['servers'][0]['cassandra_cud_hostname'])) {
+            $this->s_cassandra_cud_hostname_write = $st_database['write']['servers'][0]['cassandra_cud_hostname'];
+        }
+        if (isset($st_database['read']['servers'][0]['cassandra_cud_port'])) {
+            $this->s_cassandra_cud_port_read = $st_database['read']['servers'][0]['cassandra_cud_port'];
+        }
+        if (isset($st_database['write']['servers'][0]['cassandra_cud_port'])) {
+            $this->s_cassandra_cud_port_write = $st_database['write']['servers'][0]['cassandra_cud_port'];
+        }
+        if (isset($st_database['read']['servers'][0]['cassandra_cud_cluster_hostname'])) {
+            $this->s_cassandra_cud_cluster_hostname_read = $st_database['read']['servers'][0]['cassandra_cud_cluster_hostname'];
+        }
+        if (isset($st_database['write']['servers'][0]['cassandra_cud_cluster_hostname'])) {
+            $this->s_cassandra_cud_cluster_hostname_write = $st_database['write']['servers'][0]['cassandra_cud_cluster_hostname'];
+        }
+
+        if (isset($st_database['read']['servers'][0]['cassandra_cud_cluster_port'])) {
+            $this->s_cassandra_cud_cluster_port_read = $st_database['read']['servers'][0]['cassandra_cud_cluster_port'];
+        }
+        if (isset($st_database['write']['servers'][0]['cassandra_cud_cluster_port'])) {
+            $this->s_cassandra_cud_cluster_port_write = $st_database['write']['servers'][0]['cassandra_cud_cluster_port'];
+        }
+
+        if (isset($st_database['read']['servers'][0]['cassandra_cud_cluster_username'])) {
+            $this->s_cassandra_cud_cluster_username_read = $st_database['read']['servers'][0]['cassandra_cud_cluster_username'];
+        }
+        if (isset($st_database['write']['servers'][0]['cassandra_cud_cluster_username'])) {
+            $this->s_cassandra_cud_cluster_username_write = $st_database['write']['servers'][0]['cassandra_cud_cluster_username'];
+        }
+        if (isset($st_database['read']['servers'][0]['cassandra_cud_cluster_password'])) {
+            $this->s_cassandra_cud_cluster_password_read = $st_database['read']['servers'][0]['cassandra_cud_cluster_password'];
+        }
+        if (isset($st_database['write']['servers'][0]['cassandra_cud_cluster_password'])) {
+            $this->s_cassandra_cud_cluster_password_write = $st_database['write']['servers'][0]['cassandra_cud_cluster_password'];
         }
 
         if ($this->s_connection_method_read == $this->s_connection_method_write &&
@@ -227,9 +283,13 @@ class Db
         if ($s_type_connection==self::TYPE_CONNECTION_MYSQL) {
 
             $o_connection = mysql_connect($s_server_hostname.':'.$s_server_port, $s_server_username, $s_server_password);
+            if ($o_connection == false) {
+                $s_error = 'Unable to connect to the database';
+                throw new DatabaseUnableToSetCharset($s_error.': '.$s_server_database);
+            }
             if (!mysql_set_charset($s_connection_client_encoding, $o_connection)) {
                 $s_error = 'Unable to set charset';
-                throw new DatabaseUnableToSetCharset('Unable to set charset: '.$s_connection_client_encoding);
+                throw new DatabaseUnableToSetCharset('Unable to set charset: '.$s_connection_client_encoding.' (current: '.mysql_character_set_name($o_connection).')');
             }
             if ($this->getUseDatabaseOrKeyspace() == true && !@mysql_select_db($s_server_database, $o_connection)) {
                 $s_error = 'Unable to select database';
@@ -241,9 +301,13 @@ class Db
         if ($s_type_connection==self::TYPE_CONNECTION_MYSQLI) {
 
             $o_connection = mysqli_connect($s_server_hostname, $s_server_username, $s_server_password, $s_server_database, $s_server_port);
+            if ($o_connection == false) {
+                $s_error = 'Unable to connect to the database';
+                throw new DatabaseUnableToSetCharset($s_error.': '.$s_server_database);
+            }
             if (!mysqli_set_charset($o_connection, $s_connection_client_encoding)) {
                 $s_error = 'Unable to set charset';
-                throw new DatabaseUnableToSetCharset('Unable to set charset: '.$s_connection_client_encoding);
+                throw new DatabaseUnableToSetCharset('Unable to set charset: '.$s_connection_client_encoding.' (current: '.mysqli_character_set_name($o_connection).')');
             }
             if ($this->getUseDatabaseOrKeyspace() == true && !@mysqli_select_db($o_connection, $s_server_database)) {
                 $s_error = 'Unable to select database';
@@ -521,6 +585,129 @@ class Db
                         File::deleteFile($s_file_name_cqlsi);
                         File::deleteFile($s_file_name_cqlsi_output);
                         File::deleteFile($s_file_name_bash);
+                    }
+                }
+
+                if ($s_type_connection == self::TYPE_CONNECTION_CASSANDRA_CUD) {
+                    $i_result_status  = self::QUERY_RESULT_STATUS_NOT_EXECUTED;
+                    $i_result_error   = 0;  // Num errors
+                    $s_result_error_description = '';
+
+                    $s_cql = $s_sql;
+                    $s_cql_encoded = urlencode($s_cql);
+
+                    $s_format = 'xml';
+
+                    $i_start_time = microtime(true);
+
+                    $s_cud_host = $this->s_cassandra_cud_hostname_read;
+                    $s_cud_port = $this->s_cassandra_cud_port_read;
+                    // TODO: Continue. Implementation not fully finished
+
+                    $s_cud_path = '/cgi-bin/cud.py';
+                    $s_cluster = $this->s_cassandra_cud_cluster_hostname_write;
+                    $s_port = $this->s_cassandra_cud_cluster_port_write;
+                    $s_keyspace = $this->s_server_database_write;
+                    $s_cud_request = "http://$s_cud_host:$s_cud_port$s_cud_path?format=$s_format&cluster=$s_cluster&port=$s_port&user=test&password=test&keyspace=$s_keyspace&cql=$s_cql_encoded";
+
+                    if ($s_format == 'html') {
+                        $ch = curl_init($s_cud_request);
+                        curl_setopt($ch, CURLOPT_HEADER, 0);
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                        $s_results = curl_exec($ch);
+                        curl_close($ch);
+                    } else {
+                        $o_xml = simplexml_load_file($s_cud_request);
+                    }
+
+                    $i_finish_time_http = microtime(true);
+
+
+                    if ($s_query_type == self::QUERY_TYPE_READ) {
+                        if ($this->b_use_database_or_keyspace == true) {
+                            $s_keyspace = $this->s_server_database_read;
+                        } else {
+                            // Do not use keyspace
+                            $s_keyspace = '';
+                        }
+                        $s_cassandra_cud_hostname = $this->s_cassandra_cud_hostname_read;
+                        $s_server_hostname = $this->s_server_hostname_read;
+                        $s_cassandra_cud_username = $this->s_cassandra_cud_cluster_username_read;
+                        $s_cassandra_cud_password = $this->s_cassandra_cud_cluster_password_read;
+                    } else {
+                        if ($this->b_use_database_or_keyspace == true) {
+                            $s_keyspace = $this->s_server_database_write;
+                        } else {
+                            // Do not use keyspace
+                            $s_keyspace = '';
+                        }
+                        $s_cassandra_cud_hostname = $this->s_cassandra_cud_hostname_write;
+                        $s_server_hostname = $this->s_server_hostname_write;
+                        $s_cassandra_cud_username = $this->s_cassandra_cud_cluster_username_write;
+                        $s_cassandra_cud_password = $this->s_cassandra_cud_cluster_password_write;
+                    }
+
+                    $s_keyspace = urlencode($s_keyspace);
+
+                    $ch = curl_init("http://$s_cassandra_cud_hostname/cgi-bin/cud.py?cluster=$s_server_hostname&user=$s_cassandra_cud_username&password=$s_cassandra_cud_password&keyspace=$s_keyspace&cql=$s_cql");
+                    curl_setopt($ch, CURLOPT_HEADER, 0);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                    $s_results = curl_exec($ch);
+                    curl_close($ch);
+
+                    $s_row_separator = '||*||';
+                    $s_end_of_row    = '//*//';
+
+                    $st_results = explode("\n", $s_results);
+                    $st_data_temp = Array();
+
+                    if ($st_results[0] == 0) {
+                        // Ok
+                        $i_num_registers = $st_results[2];
+
+                        if ($i_num_registers > 0) {
+                            $st_data_temp = explode($s_end_of_row, $st_results[3]);
+                        }
+
+                        // Remove last empty row from explode
+                        if(empty($st_data_temp[count($st_data_temp)-1])) {
+                            unset($st_data_temp[count($st_data_temp)-1]);
+                        }
+
+                        $i_counter = -1;
+                        foreach($st_data_temp as $i_key=>$s_row) {
+                            if ($i_counter == -1) {
+                                // First row is for names of the rows
+                                $st_row_titles = explode($s_row_separator, $s_row);
+                            } else {
+                                $st_rows[] = explode($s_row_separator, $s_row);
+
+                            }
+                            $i_counter++;
+                        }
+
+                        if ($i_counter>0) {
+                            // We have results
+                            $i_num = 0;
+                            foreach($st_rows as $i_key_row=>$st_row) {
+                                foreach($st_row as $i_num_column=>$s_cell) {
+                                    // Create nice structure compliant with Abstraction Class Db
+                                    $st_data[$i_num][$st_row_titles[$i_num_column]] = $s_cell;
+                                }
+
+                                $i_num++;
+                            }
+
+                        }
+
+                        $i_result_status  = self::QUERY_RESULT_STATUS_EXECUTED;
+
+                    } else {
+                        $i_result_status  = self::QUERY_RESULT_STATUS_EXECUTED;
+                        $i_result_error++;  // Num errors
+                        $s_result_error_description = 'error code: '.$st_results[0].' error description: '.$st_results[1];
+
+                        echo 'There was an error executing the query: error code: '.$st_results[0].' error description: '.$st_results[1]."<br />";
                     }
                 }
 

@@ -10,25 +10,39 @@
 
 use CataloniaFramework\Db as Db;
 
-$st_server_config['database'] = Array(	'read'  => Array(   'servers'   => Array(0 => Array('connection_type'   => Db::TYPE_CONNECTION_MYSQLI,
-                                                                                            'connection_method' => Db::CONNECTION_METHOD_TCPIP,
-                                                                                            'server_hostname'   => '127.0.0.1',
-                                                                                            'server_port'		=> '3306',
-                                                                                            'username'			=> 'www_cataloniafw',
-                                                                                            'password'			=> 'yourpassword',
-                                                                                            'database'			=> 'cataloniafw',
-                                                                                            'client_encoding'   => 'utf8'
+$st_server_config['database'] = Array(	'read'  => Array(   'servers'   => Array(0 => Array('connection_type'                   => Db::TYPE_CONNECTION_MYSQLI,
+                                                                                            'connection_method'                 => Db::CONNECTION_METHOD_TCPIP,
+                                                                                            'server_hostname'                   => '127.0.0.1',
+                                                                                            'server_port'		                => '3306',
+                                                                                            'username'			                => 'www_cataloniafw',
+                                                                                            'password'			                => 'yourpassword',
+                                                                                            'database'			                => 'cataloniafw',
+                                                                                            'client_encoding'                   => 'utf8',
+                                                                                            // User for Cassandra Universal Driver
+                                                                                            'cassandra_cud_hostname'            => '127.0.0.1',
+                                                                                            'cassandra_cud_port'                => '80',
+                                                                                            'cassandra_cud_cluster_hostname'    => '127.0.0.1',
+                                                                                            'cassandra_cud_cluster_port'        => '9906',
+                                                                                            'cassandra_cud_cluster_username'    => '',
+                                                                                            'cassandra_cud_cluster_password'    => ''
                                                                                             )
                                                                                 )
                                                         ),
-                                        'write' => Array(   'servers'   => Array(0 => Array('connection_type'   => Db::TYPE_CONNECTION_MYSQLI,
-                                                                                            'connection_method' => Db::CONNECTION_METHOD_TCPIP,
-                                                                                            'server_hostname'   => '127.0.0.1',
-                                                                                            'server_port'		=> '3306',
-                                                                                            'username'			=> 'www_cataloniafw',
-                                                                                            'password'			=> 'yourpassword',
-                                                                                            'database'			=> 'cataloniafw',
-                                                                                            'client_encoding'   => 'utf8'
+                                        'write' => Array(   'servers'   => Array(0 => Array('connection_type'                   => Db::TYPE_CONNECTION_MYSQLI,
+                                                                                            'connection_method'                 => Db::CONNECTION_METHOD_TCPIP,
+                                                                                            'server_hostname'                   => '127.0.0.1',
+                                                                                            'server_port'		                => '3306',
+                                                                                            'username'			                => 'www_cataloniafw',
+                                                                                            'password'			                => 'yourpassword',
+                                                                                            'database'			                => 'cataloniafw',
+                                                                                            'client_encoding'                   => 'utf8',
+                                                                                            // Use for Cassandra Universal Driver
+                                                                                            'cassandra_cud_hostname'            => '127.0.0.1',
+                                                                                            'cassandra_cud_port'                => '80',
+                                                                                            'cassandra_cud_cluster_hostname'    => '127.0.0.1',
+                                                                                            'cassandra_cud_cluster_port'        => '9906',
+                                                                                            'cassandra_cud_cluster_username'    => '',
+                                                                                            'cassandra_cud_cluster_password'    => ''
                                                                                             )
                                                                                 )
 

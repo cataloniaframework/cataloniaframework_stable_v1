@@ -1,3 +1,71 @@
+2015-08-28 - v.1.1.017
+Added composer.json
+
+Added phpunit to composer
+
+Added an empty vendor/autoload.php
+
+Removed a require_once to init/bootstrap.php
+
+2015-08-27 - v.1.1.017
+Added more debug info when in MySqli trying to change charset and failing.
+
+Added a trap error when connect to Mysqli failed. Before was not detected as it, but to a charset problem.
+
+2015-08-23 - v.1.1.017
+Just quickly finished CUD implementation. Job pending.
+
+------------------------------------------------------------------
+
+2014-04-21 - v.1.1.016
+Carles Mateo
+Added improved config for C.U.D.:
+    // Use for Cassandra Universal Driver
+    'cassandra_cud_hostname'            => '127.0.0.1',
+    'cassandra_cud_port'                => '80',
+    'cassandra_cud_cluster_hostname'    => '127.0.0.1',
+    'cassandra_cud_cluster_port'        => '9906',
+    'cassandra_cud_cluster_username'    => '',
+    'cassandra_cud_cluster_password'    => ''
+
+
+2014-04-10 - v.1.1.016
+Carles Mateo
+Fixed bug in enconding KeySpace to C.U.D.
+
+2014-04-09 - v.1.1.016
+Carles Mateo
+Added support for Cassandra Universal Driver
+
+Added new vars to config:
+    // Use for Cassandra Universal Driver
+    'cassandra_cud_hostname' => '127.0.0.1',
+    'cassandra_cud_port'     => '9906',
+    'cassandra_cud_username' => '',
+    'cassandra_cud_password' => ''
+
+2014-02-01 - v.1.1.016
+Carles Mateo
+Sections now support mapping urls based on two blocks, like:
+/en/personal-folder/my-files
+
+2014-01-31 - v.1.1.016
+Carles Mateo
+init/bootstrap.php is split in two files:
+init/customprebootstrap.php that is loaded at a very early stage, before any custom method
+init/custompostbootstrap.php that is loaded at the end of bootstrap.php, when all the variables have been set.
+
+2014-02-01 - v.1.1.016
+Carles Mateo
+Added class to core Graphics
+
+Added method to draw a flexible stats graphic
+
+Improved Datetime::getDateTime now accepts a different time.
+So you can use the method to calculate the datetimes from other days, e.g. yesterday: time()-(24*60*60)
+
+------------------------------------------------------------------
+
 2014-01-29 - v.1.1.015 Released
 Created crons/ folder
 

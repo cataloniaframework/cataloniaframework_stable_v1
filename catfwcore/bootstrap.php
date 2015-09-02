@@ -3,10 +3,13 @@
  * Creator:      Carles Mateo
  * Date:         2013-02-07 12:53
  * Last Updater: Carles Mateo
- * Last Updated: 2014-01-26 18:22
+ * Last Updated: 2015-09-03 13:10
  * Filename:     bootstrap.php
- * Description:
+ * Description:  The bootstrap file
  */
+
+// This is to load the autoload from the composer.json
+require_once '../vendor/autoload.php';
 
 require_once 'requests.class.php';  // For Multi-Development environments in development config
 use CataloniaFramework\Requests as Requests;
@@ -58,6 +61,8 @@ require_once CATFW_CORE_ROOT.'security.class.php';
 use CataloniaFramework\Security as Security;
 require_once CATFW_CORE_ROOT.'file.class.php';
 use CataloniaFramework\File as File;
+require_once CATFW_CORE_ROOT.'graphics.class.php';
+use CataloniaFramework\Graphics as Graphics;
 
 $s_user_language = LANGUAGE_DEFAULT;
 
@@ -69,6 +74,8 @@ $s_params = Requests::getParamStringGET('params');
 $st_params = Strings::getParamsFromURL($s_params);
 
 define('REQUESTED_PATH', $s_params);
+
+require_once CUSTOM_INIT_ROOT.'customprebootstrap.php';
 
 CommonRequests::initSession($o_db);
 
@@ -118,23 +125,40 @@ if (Navigation::isURLCustom(REQUESTED_PATH) == true) {
         CommonRequests::registerSections($o_db);
 
         if (isset($st_params[1]) && !empty($st_params[1])) {
-            $st_possible_section = Section::getSectionInfoByPath('/'.$s_user_language.'/'.$st_params[1]);
-            //var_export($st_possible_section); echo $st_params[1];
-            if ($st_possible_section !== null) {
-                // Section Found
-                $b_is_custom_section = true;
-                $s_controller   = $st_possible_section['controller'];
-                $s_action       = $st_possible_section['action'];
-            } else {
-                // Common structure /lang/controller/action
-                if (isset($st_params[1]) && !empty($st_params[1])) {
-                    $s_controller = Strings::getSanitizedControllerName($st_params[1]);
-                    unset($st_params[1]);
+
+            $st_possible_section = null;
+            if (isset($st_params[2]) && !empty($st_params[2])) {
+                // Check first for Section of two levels. E.g. /en/dashboard/main
+                $st_possible_section = Section::getSectionInfoByPath('/'.$s_user_language.'/'.$st_params[1].'/'.$st_params[2]);
+                if ($st_possible_section !== null) {
+                    // Section Found
+                    $b_is_custom_section = true;
+                    $s_controller   = $st_possible_section['controller'];
+                    $s_action       = $st_possible_section['action'];
                 }
-                if (isset($st_params[2]) && !empty($st_params[2])) {
-                    $s_action = Strings::getSanitizedControllerName($st_params[2]);
-                    unset($st_params[2]);
+            }
+
+            if ($st_possible_section == null) {
+                // Check for matching Section of one level. E.g. /en/dashboard
+                $st_possible_section = Section::getSectionInfoByPath('/'.$s_user_language.'/'.$st_params[1]);
+
+                if ($st_possible_section !== null) {
+                    // Section Found
+                    $b_is_custom_section = true;
+                    $s_controller   = $st_possible_section['controller'];
+                    $s_action       = $st_possible_section['action'];
+                } else {
+                    // Common structure /lang/controller/action
+                    if (isset($st_params[1]) && !empty($st_params[1])) {
+                        $s_controller = Strings::getSanitizedControllerName($st_params[1]);
+                        unset($st_params[1]);
+                    }
+                    if (isset($st_params[2]) && !empty($st_params[2])) {
+                        $s_action = Strings::getSanitizedControllerName($st_params[2]);
+                        unset($st_params[2]);
+                    }
                 }
+
             }
 
         }
@@ -206,3 +230,5 @@ CommonRequests::registerUserVars($o_db);
 
 // Log the visit
 CommonRequests::logRequest($o_db);
+
+require_once CUSTOM_INIT_ROOT.'custompostbootstrap.php';
