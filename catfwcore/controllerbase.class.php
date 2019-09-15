@@ -4,7 +4,7 @@
  * Creator:      Carles Mateo
  * Date Created: 2013-02-11 00:21
  * Last Updater: Carles Mateo
- * Last Updated: 2014-01-07 19:13
+ * Last Updated: 2019-09-10 19:28 IST
  * Filename:     controllerbase.class.php
  * Description: This is a class that is extended by the controllers
  */
@@ -42,6 +42,22 @@ class ControllerBase
 
     }
 
+    public function addResponseCode($s_error_code, $st_response = Array()) {
+        // This adds an error code to JSONs
+        // @TODO: Thing about using a public property $this->st_response Note: Use getters and setters.
+        $st_response['error_code'] = $s_error_code;
+
+        return $st_response;
+    }
+
+    public function addHttpResponseCode($i_error_code, $st_response = Array()) {
+        // This adds an error code to JSONs, like: 503
+        // @TODO: Thing about using a public property $this->st_response Note: Use getters and setters.
+        $st_response['http_error_code'] = $i_error_code;
+
+        return $st_response;
+    }    
+    
     public function actionIndex($s_url = '', $st_params = Array(), $st_params_url = Array(), $o_db = null) {
     // This is the default action called if the controller is called with no other provided
 
